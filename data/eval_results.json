@@ -1,0 +1,1776 @@
+{
+  "summary": {
+    "age": {
+      "exact_match": 1.0,
+      "n": 239
+    },
+    "sex": {
+      "exact_match": 1.0,
+      "n": 239
+    },
+    "chief_complaint": {
+      "exact_match": 0.9163179916317992,
+      "n": 239
+    },
+    "primary_impression": {
+      "exact_match": 0.6359832635983264,
+      "n": 239
+    },
+    "secondary_impression": {
+      "exact_match": 0.35443037974683544,
+      "n": 158
+    },
+    "incident_location": {
+      "exact_match": 0.6569037656903766,
+      "n": 239
+    },
+    "initial_acuity": {
+      "exact_match": 1.0,
+      "n": 238
+    },
+    "protocol_used": {
+      "exact_match": 0.7935483870967742,
+      "n": 155
+    },
+    "bp_systolic": {
+      "exact_match": 0.9665271966527197,
+      "n": 239
+    },
+    "bp_diastolic": {
+      "exact_match": 1.0,
+      "n": 239
+    },
+    "heart_rate": {
+      "exact_match": 0.9832635983263598,
+      "n": 239
+    },
+    "respiratory_rate": {
+      "exact_match": 0.9874476987447699,
+      "n": 239
+    },
+    "spo2": {
+      "exact_match": 0.9916317991631799,
+      "n": 239
+    },
+    "gcs_total": {
+      "exact_match": 1.0,
+      "n": 235
+    },
+    "avpu": {
+      "exact_match": 0.9683257918552036,
+      "n": 221
+    },
+    "pain_scale": {
+      "exact_match": 0.9956896551724138,
+      "n": 232
+    },
+    "events_leading": {
+      "exact_match": 0.012552301255230125,
+      "n": 239
+    },
+    "allergies": {
+      "precision": 0.8066298342541437,
+      "recall": 0.8066298342541437,
+      "f1": 0.8066298342541437,
+      "n": 181
+    },
+    "medications_current": {
+      "precision": 0.9651162790697675,
+      "recall": 0.9651162790697675,
+      "f1": 0.9651162790697675,
+      "n": 43
+    },
+    "past_medical_history": {
+      "precision": 0.9511784511784511,
+      "recall": 0.9419191919191919,
+      "f1": 0.9420875420875421,
+      "n": 198
+    },
+    "procedures": {
+      "precision": 0.8838912133891214,
+      "recall": 0.8539051603905161,
+      "f1": 0.8600816895795976,
+      "n": 239
+    },
+    "signs_symptoms": {
+      "precision": 0.8838513648137077,
+      "recall": 0.854386664010095,
+      "f1": 0.8537795770013343,
+      "n": 239
+    }
+  },
+  "overall": {
+    "scalar_exact_match": 0.8389777546431758,
+    "array_f1": 0.8855389843984771,
+    "combined": 0.8495598523148352
+  },
+  "n_samples": 239,
+  "sample_predictions": [
+    {
+      "pred": {
+        "age": 75,
+        "sex": "male",
+        "chief_complaint": "Abdominal Pain / Problems",
+        "primary_impression": "Cerebral infarction, unspecified",
+        "secondary_impression": "Dehydration",
+        "incident_location": "School/institution",
+        "initial_acuity": "Emergent",
+        "protocol_used": "Cardiac Arrest-Fibrillation",
+        "bp_systolic": 155,
+        "bp_diastolic": 105,
+        "heart_rate": 73,
+        "respiratory_rate": 22,
+        "spo2": 91,
+        "gcs_total": 6,
+        "avpu": "Alert",
+        "pain_scale": 0,
+        "events_leading": "Patient found at a nursing facility with an acute onset of cerebral infarction.",
+        "allergies": null,
+        "medications_current": [
+          "blood thinners"
+        ],
+        "past_medical_history": [
+          "hypertension",
+          "blood thinners"
+        ],
+        "procedures": [
+          "Catheterization of vein"
+        ],
+        "signs_symptoms": [
+          "Epistaxis",
+          "Hematemesis",
+          "Cervicalgia"
+        ],
+        "medications_given": null
+      },
+      "gold": {
+        "age": 75,
+        "sex": "male",
+        "chief_complaint": "Abdominal Pain / Problems",
+        "primary_impression": "Cerebral infarction, unspecified",
+        "secondary_impression": "Dehydration",
+        "incident_location": "School/institution",
+        "initial_acuity": "Emergent",
+        "protocol_used": "Cardiac Arrest-Fibrillation",
+        "bp_systolic": 155,
+        "bp_diastolic": 105,
+        "heart_rate": 73,
+        "respiratory_rate": 22,
+        "spo2": 91,
+        "gcs_total": 6,
+        "avpu": "Alert",
+        "pain_scale": 0,
+        "allergies": null,
+        "medications_current": [
+          "blood thinners"
+        ],
+        "past_medical_history": [
+          "hypertension"
+        ],
+        "medications_given": [],
+        "procedures": [
+          "Catheterization of vein"
+        ],
+        "signs_symptoms": [
+          "Hematemesis",
+          "Epistaxis",
+          "Cervicalgia"
+        ],
+        "events_leading": "Patient was found with altered mental status at a nursing facility after complaining of neck pain earlier. He then had a nosebleed and vomited blood."
+      }
+    },
+    {
+      "pred": {
+        "age": 83,
+        "sex": "male",
+        "chief_complaint": "Traumatic Injury",
+        "primary_impression": "Acute respiratory distress syndrome",
+        "secondary_impression": null,
+        "incident_location": "Single-family non-institutional residence",
+        "initial_acuity": "Emergent",
+        "protocol_used": null,
+        "bp_systolic": 145,
+        "bp_diastolic": 90,
+        "heart_rate": 92,
+        "respiratory_rate": 12,
+        "spo2": 92,
+        "gcs_total": 14,
+        "avpu": "Alert",
+        "pain_scale": 4,
+        "events_leading": "Patient has had a fever, weakness, and diarrhea for several days, leading to a fall from his bed.",
+        "allergies": [
+          "Penicillin"
+        ],
+        "medications_current": null,
+        "past_medical_history": [
+          "COPD",
+          "Afib"
+        ],
+        "procedures": [
+          "Catheterization of vein",
+          "12 lead electrocardiogram"
+        ],
+        "signs_symptoms": [
+          "Fever",
+          "unspecified",
+          "Weakness",
+          "Diarrhea",
+          "unspecified",
+          "Unspecified abdominal pain",
+          "Hematemesis"
+        ],
+        "medications_given": "Fentanyl 46.19mg IV"
+      },
+      "gold": {
+        "age": 83,
+        "sex": "male",
+        "chief_complaint": "Traumatic Injury",
+        "primary_impression": "Acute respiratory distress syndrome",
+        "secondary_impression": "Bed confinement status",
+        "incident_location": "Single-family non-institutional residence",
+        "initial_acuity": "Emergent",
+        "protocol_used": "General-Anaphylaxis",
+        "bp_systolic": 145,
+        "bp_diastolic": 90,
+        "heart_rate": 92,
+        "respiratory_rate": 12,
+        "spo2": 92,
+        "gcs_total": 14,
+        "avpu": "Alert",
+        "pain_scale": 4,
+        "allergies": [
+          "Penicillin"
+        ],
+        "medications_current": null,
+        "past_medical_history": [
+          "COPD",
+          "Afib"
+        ],
+        "medications_given": [
+          {
+            "drug": "Fentanyl",
+            "dose": 46.19,
+            "unit": "mg",
+            "route": "IV"
+          }
+        ],
+        "procedures": [
+          "12 lead electrocardiogram",
+          "Catheterization of vein",
+          "Pulse oximetry"
+        ],
+        "signs_symptoms": [
+          "Hematemesis",
+          "Unspecified abdominal pain",
+          "Weakness",
+          "Diarrhea",
+          "unspecified",
+          "Fever",
+          "unspecified"
+        ],
+        "events_leading": "Bed-confined patient with a multi-day history of fever and weakness fell out of bed, resulting in abdominal pain. He subsequently developed respiratory distress and had an episode of hematemesis."
+      }
+    },
+    {
+      "pred": {
+        "age": 27,
+        "sex": "female",
+        "chief_complaint": "Motor Vehicle Collision (MVC)",
+        "primary_impression": "Shortness of breath",
+        "secondary_impression": "Acute respiratory distress syndrome",
+        "incident_location": "Unspecified non-institutional residence",
+        "initial_acuity": "Emergent",
+        "protocol_used": "General-Anaphylaxis",
+        "bp_systolic": 126,
+        "bp_diastolic": 86,
+        "heart_rate": 103,
+        "respiratory_rate": 15,
+        "spo2": 91,
+        "gcs_total": 4,
+        "avpu": "Alert",
+        "pain_scale": 10,
+        "events_leading": "Patient was a driver in a minor motor vehicle collision and developed rapid shortness of breath.",
+        "allergies": [
+          "penicillin"
+        ],
+        "medications_current": null,
+        "past_medical_history": [
+          "severe asthma"
+        ],
+        "procedures": [
+          "Continuous physical assessment",
+          "Airway monitoring"
+        ],
+        "signs_symptoms": [
+          "Shortness of breath",
+          "Vomiting",
+          "unspecified",
+          "Epistaxis"
+        ],
+        "medications_given": "Albuterol / Ipratropium 2.7mg SL"
+      },
+      "gold": {
+        "age": 27,
+        "sex": "female",
+        "chief_complaint": "Motor Vehicle Collision (MVC)",
+        "primary_impression": "Acute respiratory distress syndrome",
+        "secondary_impression": "Nausea",
+        "incident_location": "Unspecified non-institutional residence",
+        "initial_acuity": "Emergent",
+        "protocol_used": null,
+        "bp_systolic": 126,
+        "bp_diastolic": 86,
+        "heart_rate": 103,
+        "respiratory_rate": 15,
+        "spo2": 91,
+        "gcs_total": 4,
+        "avpu": null,
+        "pain_scale": 10,
+        "allergies": [
+          "penicillin"
+        ],
+        "medications_current": null,
+        "past_medical_history": [
+          "severe asthma"
+        ],
+        "medications_given": [
+          {
+            "drug": "Albuterol / Ipratropium",
+            "dose": 2.7,
+            "unit": "mg",
+            "route": "SL"
+          }
+        ],
+        "procedures": [
+          "Continuous physical assessment"
+        ],
+        "signs_symptoms": [
+          "Shortness of breath",
+          "Chest pain on breathing",
+          "Vomiting",
+          "unspecified",
+          "Epistaxis"
+        ],
+        "events_leading": "Patient was involved in a minor motor vehicle collision and subsequently developed acute shortness of breath and a declining level of consciousness."
+      }
+    },
+    {
+      "pred": {
+        "age": 49,
+        "sex": "female",
+        "chief_complaint": "Breathing Problems",
+        "primary_impression": "Weakness",
+        "secondary_impression": null,
+        "incident_location": "School/institution",
+        "initial_acuity": "Emergent",
+        "protocol_used": null,
+        "bp_systolic": 96,
+        "bp_diastolic": 62,
+        "heart_rate": 134,
+        "respiratory_rate": 21,
+        "spo2": 97,
+        "gcs_total": null,
+        "avpu": "Pain",
+        "pain_scale": 0,
+        "events_leading": "Patient felt sick all day with a cough, and was found slumped over at her desk by a coworker.",
+        "allergies": [
+          "NKDA"
+        ],
+        "medications_current": null,
+        "past_medical_history": [
+          "hypothyroidism"
+        ],
+        "procedures": [
+          "Catheterization of vein",
+          "Administration of intravenous fluids"
+        ],
+        "signs_symptoms": [
+          "Weakness",
+          "Cough",
+          "Tachycardia",
+          "unspecified"
+        ],
+        "medications_given": null
+      },
+      "gold": {
+        "age": 49,
+        "sex": "female",
+        "chief_complaint": "Breathing Problems",
+        "primary_impression": "Weakness",
+        "secondary_impression": null,
+        "incident_location": "School/institution",
+        "initial_acuity": "Emergent",
+        "protocol_used": null,
+        "bp_systolic": 96,
+        "bp_diastolic": 62,
+        "heart_rate": 134,
+        "respiratory_rate": 21,
+        "spo2": 97,
+        "gcs_total": null,
+        "avpu": "Pain",
+        "pain_scale": 0,
+        "allergies": [
+          "NKDA"
+        ],
+        "medications_current": null,
+        "past_medical_history": [
+          "hypothyroidism"
+        ],
+        "medications_given": [],
+        "procedures": [
+          "Catheterization of vein"
+        ],
+        "signs_symptoms": [
+          "Weakness",
+          "Cough"
+        ],
+        "events_leading": "Patient felt progressively weaker with a cough throughout the day at work and was found slumped over at her desk by a coworker."
+      }
+    },
+    {
+      "pred": {
+        "age": 83,
+        "sex": "male",
+        "chief_complaint": "Sick Person",
+        "primary_impression": "Encounter for general adult medical examination without abnormal findings",
+        "secondary_impression": "Syncope and collapse",
+        "incident_location": "School/institution",
+        "initial_acuity": "Emergent",
+        "protocol_used": null,
+        "bp_systolic": 119,
+        "bp_diastolic": 65,
+        "heart_rate": 99,
+        "respiratory_rate": 15,
+        "spo2": 94,
+        "gcs_total": 15,
+        "avpu": "Alert",
+        "pain_scale": 2,
+        "events_leading": "Patient experienced a syncopal episode while watching a play at a school.",
+        "allergies": null,
+        "medications_current": null,
+        "past_medical_history": [
+          "Afib",
+          "COPD"
+        ],
+        "procedures": [
+          "Catheterization of vein",
+          "Capillary blood glucose measurement",
+          "Continuous physical assessment"
+        ],
+        "signs_symptoms": [
+          "Other fatigue",
+          "Fever",
+          "unspecified",
+          "Hematemesis"
+        ],
+        "medications_given": null
+      },
+      "gold": {
+        "age": 83,
+        "sex": "male",
+        "chief_complaint": "Sick Person",
+        "primary_impression": "Syncope and collapse",
+        "secondary_impression": null,
+        "incident_location": "School",
+        "initial_acuity": "Emergent",
+        "protocol_used": null,
+        "bp_systolic": 119,
+        "bp_diastolic": 65,
+        "heart_rate": 99,
+        "respiratory_rate": 15,
+        "spo2": 94,
+        "gcs_total": 15,
+        "avpu": "Alert",
+        "pain_scale": 2,
+        "allergies": null,
+        "medications_current": null,
+        "past_medical_history": [
+          "Afib",
+          "COPD"
+        ],
+        "medications_given": [],
+        "procedures": [
+          "Catheterization of vein",
+          "Continuous physical assessment",
+          "Glucose measurement",
+          "blood"
+        ],
+        "signs_symptoms": [
+          "Other fatigue",
+          "Fever",
+          "unspecified",
+          "Hematemesis"
+        ],
+        "events_leading": "Patient had a syncopal episode while watching a play at a high school auditorium, followed by an episode of hematemesis."
+      }
+    },
+    {
+      "pred": {
+        "age": 49,
+        "sex": "female",
+        "chief_complaint": "Alcohol / Drug Ingestion / Overdose",
+        "primary_impression": "Injury, unspecified",
+        "secondary_impression": "Nausea with vomiting, unspecified",
+        "incident_location": "Single-family non-institutional residence",
+        "initial_acuity": "Emergent",
+        "protocol_used": null,
+        "bp_systolic": 135,
+        "bp_diastolic": 86,
+        "heart_rate": 82,
+        "respiratory_rate": 20,
+        "spo2": 99,
+        "gcs_total": 13,
+        "avpu": "Alert",
+        "pain_scale": 3,
+        "events_leading": "Patient was found by family with an empty bottle of Xanax next to her.",
+        "allergies": [
+          "codeine"
+        ],
+        "medications_current": null,
+        "past_medical_history": [
+          "type 2 diabetes",
+          "depression"
+        ],
+        "procedures": [
+          "Catheterization of vein"
+        ],
+        "signs_symptoms": [
+          "Cervicalgia",
+          "Nausea and vomiting",
+          "Other fatigue"
+        ],
+        "medications_given": "Glucose 59.15mg IV"
+      },
+      "gold": {
+        "age": 49,
+        "sex": "female",
+        "chief_complaint": "Alcohol / Drug Ingestion / Overdose",
+        "primary_impression": "Injury, unspecified, initial encounter",
+        "secondary_impression": "Nausea with vomiting, unspecified",
+        "incident_location": "Single-family non-institutional residence",
+        "initial_acuity": "Emergent",
+        "protocol_used": null,
+        "bp_systolic": 135,
+        "bp_diastolic": 86,
+        "heart_rate": 82,
+        "respiratory_rate": 20,
+        "spo2": 99,
+        "gcs_total": 13,
+        "avpu": "Alert",
+        "pain_scale": 3,
+        "allergies": [
+          "codeine"
+        ],
+        "medications_current": null,
+        "past_medical_history": [
+          "type 2 diabetes",
+          "depression"
+        ],
+        "medications_given": [
+          {
+            "drug": "Glucose 100 MG/ML Injectable Solution",
+            "dose": 59.15,
+            "unit": "mg",
+            "route": "IV"
+          }
+        ],
+        "procedures": [
+          "Catheterization of vein"
+        ],
+        "signs_symptoms": [
+          "Cervicalgia",
+          "Nausea with vomiting",
+          "unspecified",
+          "Other fatigue"
+        ],
+        "events_leading": "Patient was found by family next to an empty bottle of Xanax."
+      }
+    },
+    {
+      "pred": {
+        "age": 46,
+        "sex": "male",
+        "chief_complaint": "Eye Problems / Injuries",
+        "primary_impression": "Unspecified abdominal pain",
+        "secondary_impression": null,
+        "incident_location": "Single-family non-institutional residence",
+        "initial_acuity": "Emergent",
+        "protocol_used": "General-Sepsis",
+        "bp_systolic": 137,
+        "bp_diastolic": 79,
+        "heart_rate": 55,
+        "respiratory_rate": 21,
+        "spo2": 99,
+        "gcs_total": 15,
+        "avpu": "Alert",
+        "pain_scale": 8,
+        "events_leading": "Patient experienced a sudden onset of severe abdominal pain while watching television, followed by two episodes of hematemesis.",
+        "allergies": [
+          "Aspirin"
+        ],
+        "medications_current": null,
+        "past_medical_history": [
+          "asthma",
+          "GERD"
+        ],
+        "procedures": [
+          "Continuous physical assessment"
+        ],
+        "signs_symptoms": [
+          "Unspecified abdominal pain",
+          "Hematemesis"
+        ],
+        "medications_given": "Atrovent 0.55mg SL | Albuterol 2.88mg IV"
+      },
+      "gold": {
+        "age": 46,
+        "sex": "male",
+        "chief_complaint": "Eye Problems / Injuries",
+        "primary_impression": "Generalized abdominal pain",
+        "secondary_impression": "Encounter for general adult medical examination without abnormal findings",
+        "incident_location": "Single-family non-institutional residence",
+        "initial_acuity": "Emergent",
+        "protocol_used": "General-Sepsis",
+        "bp_systolic": 137,
+        "bp_diastolic": 79,
+        "heart_rate": 55,
+        "respiratory_rate": 21,
+        "spo2": 99,
+        "gcs_total": 15,
+        "avpu": "Alert",
+        "pain_scale": 8,
+        "allergies": [
+          "Aspirin"
+        ],
+        "medications_current": null,
+        "past_medical_history": [
+          "asthma",
+          "GERD"
+        ],
+        "medications_given": [
+          {
+            "drug": "Atrovent",
+            "dose": 0.55,
+            "unit": "mg",
+            "route": "SL"
+          },
+          {
+            "drug": "Albuterol",
+            "dose": 2.88,
+            "unit": "mg",
+            "route": "IV"
+          }
+        ],
+        "procedures": [
+          "Continuous physical assessment"
+        ],
+        "signs_symptoms": [
+          "Vomiting",
+          "unspecified",
+          "Unspecified abdominal pain",
+          "Hematemesis"
+        ],
+        "events_leading": "Patient initially called for eye problems but then developed sudden, severe abdominal pain followed by two episodes of hematemesis."
+      }
+    },
+    {
+      "pred": {
+        "age": 89,
+        "sex": "female",
+        "chief_complaint": "Breathing Problems",
+        "primary_impression": "Generalized abdominal pain",
+        "secondary_impression": null,
+        "incident_location": "Private commercial establishment",
+        "initial_acuity": "Emergent",
+        "protocol_used": "Airway",
+        "bp_systolic": 134,
+        "bp_diastolic": 88,
+        "heart_rate": 110,
+        "respiratory_rate": 14,
+        "spo2": 92,
+        "gcs_total": 12,
+        "avpu": "Alert",
+        "pain_scale": 0,
+        "events_leading": "Patient experienced a sudden onset of generalized abdominal pain, shoulder pain, and fatigue while at a commercial establishment.",
+        "allergies": [
+          "codeine"
+        ],
+        "medications_current": [
+          "metoprolol"
+        ],
+        "past_medical_history": [
+          "A-fib"
+        ],
+        "procedures": [
+          "Cardiac monitoring",
+          "12 lead electrocardiogram"
+        ],
+        "signs_symptoms": [
+          "Generalized abdominal pain",
+          "Pain in unspecified shoulder",
+          "Angina pectoris",
+          "unspecified",
+          "Other fatigue"
+        ],
+        "medications_given": "Nitroglycerin 0.42mg SL | Fentanyl 53.97mg IV"
+      },
+      "gold": {
+        "age": 89,
+        "sex": "female",
+        "chief_complaint": "Breathing Problems",
+        "primary_impression": "Generalized abdominal pain",
+        "secondary_impression": "Other reduced mobility",
+        "incident_location": "Private commercial establishment",
+        "initial_acuity": "Emergent",
+        "protocol_used": "Airway",
+        "bp_systolic": 134,
+        "bp_diastolic": 88,
+        "heart_rate": 110,
+        "respiratory_rate": 14,
+        "spo2": 92,
+        "gcs_total": 12,
+        "avpu": "Alert",
+        "pain_scale": 0,
+        "allergies": [
+          "codeine"
+        ],
+        "medications_current": [
+          "metoprolol"
+        ],
+        "past_medical_history": [
+          "A-fib"
+        ],
+        "medications_given": [
+          {
+            "drug": "Nitroglycerin",
+            "dose": 0.42,
+            "unit": "mg",
+            "route": "SL"
+          },
+          {
+            "drug": "Fentanyl",
+            "dose": 53.97,
+            "unit": "mg",
+            "route": "IV"
+          }
+        ],
+        "procedures": [
+          "12 lead electrocardiogram",
+          "Cardiac monitoring",
+          "Electrocardiographic monitoring"
+        ],
+        "signs_symptoms": [
+          "Pain in unspecified shoulder",
+          "Angina pectoris",
+          "unspecified",
+          "Other fatigue",
+          "Pain",
+          "unspecified"
+        ],
+        "events_leading": "Patient developed breathing problems, abdominal pain, and shoulder pain while at a commercial establishment."
+      }
+    },
+    {
+      "pred": {
+        "age": 79,
+        "sex": "male",
+        "chief_complaint": "Sick Person",
+        "primary_impression": "Dizziness and giddiness",
+        "secondary_impression": null,
+        "incident_location": "Single-family non-institutional residence",
+        "initial_acuity": "Emergent",
+        "protocol_used": "General-Diabetic Emergency",
+        "bp_systolic": 133,
+        "bp_diastolic": 84,
+        "heart_rate": 96,
+        "respiratory_rate": 22,
+        "spo2": 94,
+        "gcs_total": 12,
+        "avpu": "Alert",
+        "pain_scale": 0,
+        "events_leading": "Patient has had a two-day history of fever and nausea, followed by the onset of extreme dizziness and weakness.",
+        "allergies": [
+          "Codeine"
+        ],
+        "medications_current": null,
+        "past_medical_history": [
+          "Type 2 Diabetes"
+        ],
+        "procedures": [
+          "Pulse oximetry",
+          "Catheterization of vein"
+        ],
+        "signs_symptoms": [
+          "Fever",
+          "unspecified",
+          "Nausea",
+          "Weakness",
+          "Cervicalgia"
+        ],
+        "medications_given": null
+      },
+      "gold": {
+        "age": 79,
+        "sex": "male",
+        "chief_complaint": "Sick Person",
+        "primary_impression": "Dizziness and giddiness",
+        "secondary_impression": "Weakness",
+        "incident_location": "Unspecified non-institutional residence",
+        "initial_acuity": "Emergent",
+        "protocol_used": "General-Diabetic Emergency",
+        "bp_systolic": 133,
+        "bp_diastolic": 84,
+        "heart_rate": 96,
+        "respiratory_rate": 22,
+        "spo2": 94,
+        "gcs_total": 12,
+        "avpu": "Alert",
+        "pain_scale": 0,
+        "allergies": [
+          "Codeine"
+        ],
+        "medications_current": null,
+        "past_medical_history": [
+          "Type 2 Diabetes"
+        ],
+        "medications_given": [],
+        "procedures": [
+          "Pulse oximetry",
+          "Catheterization of vein"
+        ],
+        "signs_symptoms": [
+          "Cervicalgia",
+          "Fever",
+          "unspecified",
+          "Nausea"
+        ],
+        "events_leading": "Patient experienced two days of fever and nausea, followed by the acute onset of dizziness, weakness, and neck pain."
+      }
+    },
+    {
+      "pred": {
+        "age": 90,
+        "sex": "female",
+        "chief_complaint": "Convulsions / Seizures",
+        "primary_impression": "Cardiac arrhythmia, unspecified",
+        "secondary_impression": "Essential (primary) hypertension",
+        "incident_location": "Trade/service area",
+        "initial_acuity": "Emergent",
+        "protocol_used": "General-Anaphylaxis",
+        "bp_systolic": 156,
+        "bp_diastolic": 86,
+        "heart_rate": 63,
+        "respiratory_rate": 19,
+        "spo2": 100,
+        "gcs_total": 13,
+        "avpu": "Verbal",
+        "pain_scale": 3,
+        "events_leading": "Patient experienced a syncopal event at a trade/service area, prompting bystanders to call 911.",
+        "allergies": null,
+        "medications_current": null,
+        "past_medical_history": [
+          "hypertension",
+          "A-fib"
+        ],
+        "procedures": [
+          "Moving a patient to a stretcher",
+          "Catheterization of vein",
+          "12 lead electrocardiogram"
+        ],
+        "signs_symptoms": [
+          "Nausea",
+          "Weakness",
+          "Cervicalgia",
+          "Epistaxis"
+        ],
+        "medications_given": null
+      },
+      "gold": {
+        "age": 90,
+        "sex": "female",
+        "chief_complaint": "Convulsions / Seizures",
+        "primary_impression": "Cardiac arrhythmia, unspecified",
+        "secondary_impression": "Essential (primary) hypertension",
+        "incident_location": "Trade/service area",
+        "initial_acuity": "Emergent",
+        "protocol_used": "General-Anaphylaxis",
+        "bp_systolic": 156,
+        "bp_diastolic": 86,
+        "heart_rate": 63,
+        "respiratory_rate": 19,
+        "spo2": 100,
+        "gcs_total": 13,
+        "avpu": "Verbal",
+        "pain_scale": 3,
+        "allergies": null,
+        "medications_current": null,
+        "past_medical_history": [
+          "hypertension",
+          "A-fib"
+        ],
+        "medications_given": [],
+        "procedures": [
+          "Moving a patient to a stretcher",
+          "Catheterization of vein",
+          "12 lead electrocardiogram",
+          "Informing doctor"
+        ],
+        "signs_symptoms": [
+          "Nausea",
+          "Weakness",
+          "Cervicalgia",
+          "Epistaxis"
+        ],
+        "events_leading": "Patient was found after a bystander-witnessed syncopal event, initially reported as a seizure."
+      }
+    },
+    {
+      "pred": {
+        "age": 89,
+        "sex": "male",
+        "chief_complaint": "Mental Health / Behavioral / Psychiatric Problem",
+        "primary_impression": "Shortness of breath",
+        "secondary_impression": "Weakness",
+        "incident_location": "Unspecified non-institutional residence",
+        "initial_acuity": "Emergent",
+        "protocol_used": "General-Eye Injury",
+        "bp_systolic": 147,
+        "bp_diastolic": 98,
+        "heart_rate": 121,
+        "respiratory_rate": 21,
+        "spo2": 93,
+        "gcs_total": 15,
+        "avpu": "Alert",
+        "pain_scale": 0,
+        "events_leading": "Family called due to patient's not acting right. Patient found alert but complaining of shortness of breath and profound weakness.",
+        "allergies": [
+          "Codeine"
+        ],
+        "medications_current": null,
+        "past_medical_history": [
+          "CHF",
+          "Afib"
+        ],
+        "procedures": [
+          "Electrocardiographic monitoring",
+          "Pulse oximetry"
+        ],
+        "signs_symptoms": [
+          "Shortness of breath",
+          "Weakness",
+          "Unspecified abdominal pain",
+          "Diarrhea",
+          "unspecified"
+        ],
+        "medications_given": "Nitroglycerin 0.4mg PO | Ondansetron 4.31mg SL"
+      },
+      "gold": {
+        "age": 89,
+        "sex": "male",
+        "chief_complaint": "Mental Health / Behavioral / Psychiatric Problem",
+        "primary_impression": "Shortness of breath",
+        "secondary_impression": "Weakness",
+        "incident_location": "Unspecified non-institutional residence",
+        "initial_acuity": "Emergent",
+        "protocol_used": "General-Eye Injury",
+        "bp_systolic": 147,
+        "bp_diastolic": 98,
+        "heart_rate": 121,
+        "respiratory_rate": 21,
+        "spo2": 93,
+        "gcs_total": 15,
+        "avpu": "Alert",
+        "pain_scale": 0,
+        "allergies": [
+          "Codeine"
+        ],
+        "medications_current": null,
+        "past_medical_history": [
+          "CHF",
+          "Afib"
+        ],
+        "medications_given": [
+          {
+            "drug": "Nitroglycerin",
+            "dose": 0.4,
+            "unit": "mg",
+            "route": "PO"
+          },
+          {
+            "drug": "Ondansetron",
+            "dose": 4.31,
+            "unit": "mg",
+            "route": "SL"
+          }
+        ],
+        "procedures": [
+          "Electrocardiographic monitoring",
+          "Pulse oximetry"
+        ],
+        "signs_symptoms": [
+          "Diarrhea",
+          "unspecified",
+          "Unspecified abdominal pain"
+        ],
+        "events_leading": "Family called for behavioral changes; patient was found to have shortness of breath, weakness, and abdominal pain following a two-day history of diarrhea."
+      }
+    },
+    {
+      "pred": {
+        "age": 52,
+        "sex": "female",
+        "chief_complaint": "Weakness",
+        "primary_impression": "Weakness",
+        "secondary_impression": null,
+        "incident_location": "Trade/service area",
+        "initial_acuity": "Emergent",
+        "protocol_used": "Cardiac-Fibrillation",
+        "bp_systolic": 117,
+        "bp_diastolic": 72,
+        "heart_rate": 59,
+        "respiratory_rate": 21,
+        "spo2": 92,
+        "gcs_total": 5,
+        "avpu": "Alert",
+        "pain_scale": 3,
+        "events_leading": "Patient was found slumped over at a department store after an episode of hematemesis.",
+        "allergies": null,
+        "medications_current": null,
+        "past_medical_history": [
+          "liver disease"
+        ],
+        "procedures": [
+          "Catheterization of vein",
+          "Cardiac monitoring",
+          "12 lead electrocardiogram"
+        ],
+        "signs_symptoms": [
+          "Weakness",
+          "Fever",
+          "unspecified",
+          "Pain in unspecified shoulder"
+        ],
+        "medications_given": "Fentanyl 59.62mg SL | EPINEPHrine 0.1 MG/ML 1.13mg PO | Aspirin 323.49mg IV"
+      },
+      "gold": {
+        "age": 52,
+        "sex": "female",
+        "chief_complaint": "Weakness",
+        "primary_impression": "Weakness",
+        "secondary_impression": "Weakness",
+        "incident_location": "Private commercial establishment",
+        "initial_acuity": "Emergent",
+        "protocol_used": "Cardiac Arrest-Fibrillation",
+        "bp_systolic": 117,
+        "bp_diastolic": 72,
+        "heart_rate": 59,
+        "respiratory_rate": 21,
+        "spo2": 92,
+        "gcs_total": 5,
+        "avpu": "Alert",
+        "pain_scale": 3,
+        "allergies": null,
+        "medications_current": null,
+        "past_medical_history": [
+          "liver disease"
+        ],
+        "medications_given": [
+          {
+            "drug": "Fentanyl",
+            "dose": 59.62,
+            "unit": "mg",
+            "route": "SL"
+          },
+          {
+            "drug": "EPINEPHrine 0.1 MG/ML",
+            "dose": 1.13,
+            "unit": "mg",
+            "route": "PO"
+          },
+          {
+            "drug": "Aspirin",
+            "dose": 323.49,
+            "unit": "mg",
+            "route": "IV"
+          }
+        ],
+        "procedures": [
+          "Catheterization of vein",
+          "12 lead electrocardiogram",
+          "Electrocardiographic monitoring"
+        ],
+        "signs_symptoms": [
+          "Weakness",
+          "Hematemesis",
+          "Fever",
+          "unspecified",
+          "Pain in unspecified shoulder"
+        ],
+        "events_leading": "Patient collapsed in a department store following an episode of vomiting blood."
+      }
+    },
+    {
+      "pred": {
+        "age": 72,
+        "sex": "female",
+        "chief_complaint": "Traumatic Injury",
+        "primary_impression": "Weakness",
+        "secondary_impression": null,
+        "incident_location": "School/institution",
+        "initial_acuity": "Emergent",
+        "protocol_used": null,
+        "bp_systolic": 137,
+        "bp_diastolic": 81,
+        "heart_rate": 78,
+        "respiratory_rate": 14,
+        "spo2": 98,
+        "gcs_total": 15,
+        "avpu": "Alert",
+        "pain_scale": 3,
+        "events_leading": "Patient experienced a fall at a school, resulting in weakness and fever.",
+        "allergies": null,
+        "medications_current": null,
+        "past_medical_history": [
+          "Asthma"
+        ],
+        "procedures": [
+          "Catheterization of vein"
+        ],
+        "signs_symptoms": [
+          "Weakness",
+          "Fever",
+          "unspecified",
+          "Reduced mobility in unspecified leg"
+        ],
+        "medications_given": "Ondansetron 4.18mg NEB | DuoNeb 2.94mg NEB"
+      },
+      "gold": {
+        "age": 72,
+        "sex": "female",
+        "chief_complaint": "Traumatic Injury",
+        "primary_impression": "Other reduced mobility",
+        "secondary_impression": "Acute respiratory distress syndrome",
+        "incident_location": "School",
+        "initial_acuity": "Emergent",
+        "protocol_used": null,
+        "bp_systolic": 137,
+        "bp_diastolic": 81,
+        "heart_rate": 78,
+        "respiratory_rate": 14,
+        "spo2": 98,
+        "gcs_total": 15,
+        "avpu": "Alert",
+        "pain_scale": 3,
+        "allergies": null,
+        "medications_current": null,
+        "past_medical_history": [
+          "asthma"
+        ],
+        "medications_given": [
+          {
+            "drug": "Ondansetron",
+            "dose": 4.18,
+            "unit": "mg",
+            "route": "NEB"
+          },
+          {
+            "drug": "DuoNeb",
+            "dose": 2.94,
+            "unit": "mg",
+            "route": "NEB"
+          }
+        ],
+        "procedures": [
+          "Catheterization of vein"
+        ],
+        "signs_symptoms": [
+          "Weakness",
+          "Fever",
+          "unspecified",
+          "Other reduced mobility"
+        ],
+        "events_leading": "Patient was feeling weak and feverish, which resulted in a fall at a school."
+      }
+    },
+    {
+      "pred": {
+        "age": 42,
+        "sex": "female",
+        "chief_complaint": "Unconscious / Fainting / Near-Fainting",
+        "primary_impression": "End stage renal disease",
+        "secondary_impression": null,
+        "incident_location": "School/institution",
+        "initial_acuity": "Emergent",
+        "protocol_used": null,
+        "bp_systolic": 134,
+        "bp_diastolic": 79,
+        "heart_rate": 66,
+        "respiratory_rate": 16,
+        "spo2": 97,
+        "gcs_total": 5,
+        "avpu": "Unresponsive",
+        "pain_scale": null,
+        "events_leading": "Patient collapsed in a classroom at a school.",
+        "allergies": [
+          "NKDA"
+        ],
+        "medications_current": null,
+        "past_medical_history": [
+          "End stage renal disease"
+        ],
+        "procedures": [
+          "Cardiac monitoring",
+          "Continuous physical assessment"
+        ],
+        "signs_symptoms": [
+          "Altered mental status",
+          "unspecified",
+          "Weakness",
+          "Cough"
+        ],
+        "medications_given": null
+      },
+      "gold": {
+        "age": 42,
+        "sex": "female",
+        "chief_complaint": "Chest Pain (Non-Traumatic)",
+        "primary_impression": "End stage renal disease",
+        "secondary_impression": null,
+        "incident_location": "School",
+        "initial_acuity": "Emergent",
+        "protocol_used": null,
+        "bp_systolic": 134,
+        "bp_diastolic": 79,
+        "heart_rate": 66,
+        "respiratory_rate": 16,
+        "spo2": 97,
+        "gcs_total": 5,
+        "avpu": null,
+        "pain_scale": null,
+        "allergies": [
+          "NKDA"
+        ],
+        "medications_current": null,
+        "past_medical_history": [
+          "End stage renal disease"
+        ],
+        "medications_given": [],
+        "procedures": [
+          "Cardiac monitoring",
+          "Evaluation procedure"
+        ],
+        "signs_symptoms": [
+          "Weakness",
+          "Cough"
+        ],
+        "events_leading": "Patient collapsed in a classroom and was found by school staff."
+      }
+    },
+    {
+      "pred": {
+        "age": 22,
+        "sex": "male",
+        "chief_complaint": "Unconscious / Fainting / Near-Fainting",
+        "primary_impression": "Altered mental status, unspecified",
+        "secondary_impression": null,
+        "incident_location": "Single-family non-institutional residence",
+        "initial_acuity": "Emergent",
+        "protocol_used": "General-Diabetic Emergency",
+        "bp_systolic": 163,
+        "bp_diastolic": 114,
+        "heart_rate": 77,
+        "respiratory_rate": 23,
+        "spo2": 97,
+        "gcs_total": 14,
+        "avpu": "Alert",
+        "pain_scale": 1,
+        "events_leading": "Patient's roommate found him unconscious at his residence, believing it was an OD.",
+        "allergies": [
+          "sulfa drugs"
+        ],
+        "medications_current": null,
+        "past_medical_history": [
+          "asthma"
+        ],
+        "procedures": [
+          "Electrocardiographic monitoring"
+        ],
+        "signs_symptoms": [
+          "Unspecified abdominal pain",
+          "Other fatigue",
+          "Cough"
+        ],
+        "medications_given": "Naloxone 1.91mg PO | Morphine 3.6mg IV"
+      },
+      "gold": {
+        "age": 22,
+        "sex": "male",
+        "chief_complaint": "Unconscious / Fainting / Near-Fainting",
+        "primary_impression": "Altered mental status, unspecified",
+        "secondary_impression": "Encounter for general adult medical examination without abnormal findings",
+        "incident_location": "Single-family non-institutional residence",
+        "initial_acuity": "Emergent",
+        "protocol_used": "General-Diabetic Emergency",
+        "bp_systolic": 163,
+        "bp_diastolic": 114,
+        "heart_rate": 77,
+        "respiratory_rate": 23,
+        "spo2": 97,
+        "gcs_total": 14,
+        "avpu": "Alert",
+        "pain_scale": 1,
+        "allergies": [
+          "sulfa drugs"
+        ],
+        "medications_current": null,
+        "past_medical_history": [
+          "asthma"
+        ],
+        "medications_given": [
+          {
+            "drug": "Naloxone",
+            "dose": 1.91,
+            "unit": "mg",
+            "route": "PO"
+          },
+          {
+            "drug": "Morphine",
+            "dose": 3.6,
+            "unit": "mg",
+            "route": "IV"
+          }
+        ],
+        "procedures": [
+          "Electrocardiographic monitoring"
+        ],
+        "signs_symptoms": [
+          "Unspecified abdominal pain",
+          "Other fatigue",
+          "Cough"
+        ],
+        "events_leading": "Patient was found unconscious by his roommate, who administered oral Naloxone prior to EMS arrival."
+      }
+    },
+    {
+      "pred": {
+        "age": 100,
+        "sex": "female",
+        "chief_complaint": "Breathing Problems",
+        "primary_impression": "Shortness of breath",
+        "secondary_impression": null,
+        "incident_location": "Single-family non-institutional residence",
+        "initial_acuity": "Emergent",
+        "protocol_used": null,
+        "bp_systolic": 190,
+        "bp_diastolic": 104,
+        "heart_rate": 77,
+        "respiratory_rate": 23,
+        "spo2": 91,
+        "gcs_total": 15,
+        "avpu": "Alert",
+        "pain_scale": 5,
+        "events_leading": "Family called due to patient's worsening shortness of breath, preceded by three days of diarrhea, abdominal pain, and painful urination.",
+        "allergies": null,
+        "medications_current": null,
+        "past_medical_history": [
+          "CHF",
+          "recurrent UTIs"
+        ],
+        "procedures": [
+          "Catheterization of vein"
+        ],
+        "signs_symptoms": [
+          "Shortness of breath",
+          "Diarrhea",
+          "unspecified",
+          "Unspecified abdominal pain",
+          "Dysuria"
+        ],
+        "medications_given": null
+      },
+      "gold": {
+        "age": 100,
+        "sex": "female",
+        "chief_complaint": "Breathing Problems",
+        "primary_impression": "Shortness of breath",
+        "secondary_impression": "Acute respiratory distress syndrome",
+        "incident_location": "Unspecified non-institutional residence",
+        "initial_acuity": "Emergent",
+        "protocol_used": null,
+        "bp_systolic": 190,
+        "bp_diastolic": 104,
+        "heart_rate": 77,
+        "respiratory_rate": 23,
+        "spo2": 91,
+        "gcs_total": 15,
+        "avpu": "Alert",
+        "pain_scale": 5,
+        "allergies": null,
+        "medications_current": null,
+        "past_medical_history": [
+          "CHF",
+          "recurrent UTIs"
+        ],
+        "medications_given": [],
+        "procedures": [
+          "Catheterization of vein"
+        ],
+        "signs_symptoms": [
+          "Shortness of breath",
+          "Diarrhea",
+          "unspecified",
+          "Unspecified abdominal pain",
+          "Dysuria"
+        ],
+        "events_leading": "Patient experienced worsening shortness of breath over one day, following a three-day history of diarrhea, abdominal pain, and dysuria."
+      }
+    },
+    {
+      "pred": {
+        "age": 86,
+        "sex": "male",
+        "chief_complaint": "Chest Pain (Non-Traumatic)",
+        "primary_impression": "Injury, unspecified",
+        "secondary_impression": null,
+        "incident_location": "Street/highway",
+        "initial_acuity": "Emergent",
+        "protocol_used": "General-Eye Injury",
+        "bp_systolic": 141,
+        "bp_diastolic": 95,
+        "heart_rate": 91,
+        "respiratory_rate": 21,
+        "spo2": 96,
+        "gcs_total": 12,
+        "avpu": "Alert",
+        "pain_scale": 0,
+        "events_leading": "Patient found on the street by bystanders complaining of chest pain, but upon EMS arrival he appeared very fatigued and confused.",
+        "allergies": [
+          "Codeine"
+        ],
+        "medications_current": null,
+        "past_medical_history": [
+          "COPD",
+          "Afib"
+        ],
+        "procedures": [
+          "Glucose measurement",
+          "blood"
+        ],
+        "signs_symptoms": [
+          "Other fatigue",
+          "Fever",
+          "unspecified"
+        ],
+        "medications_given": "Albuterol / Ipratropium 2.68mg PO"
+      },
+      "gold": {
+        "age": 86,
+        "sex": "male",
+        "chief_complaint": "Chest Pain (Non-Traumatic)",
+        "primary_impression": "Injury, unspecified",
+        "secondary_impression": null,
+        "incident_location": "Street and highway",
+        "initial_acuity": "Emergent",
+        "protocol_used": "Trauma-Eye Injury",
+        "bp_systolic": 141,
+        "bp_diastolic": 95,
+        "heart_rate": 91,
+        "respiratory_rate": 21,
+        "spo2": 96,
+        "gcs_total": 12,
+        "avpu": "Alert",
+        "pain_scale": 0,
+        "allergies": [
+          "Codeine"
+        ],
+        "medications_current": null,
+        "past_medical_history": [
+          "COPD",
+          "Afib"
+        ],
+        "medications_given": [
+          {
+            "drug": "Albuterol / Ipratropium",
+            "dose": 2.68,
+            "unit": "mg",
+            "route": "PO"
+          }
+        ],
+        "procedures": [
+          "Capillary blood glucose measurement"
+        ],
+        "signs_symptoms": [
+          "Other fatigue",
+          "Fever",
+          "unspecified"
+        ],
+        "events_leading": "Bystanders called for chest pain; patient was found confused and fatigued but denying pain."
+      }
+    },
+    {
+      "pred": {
+        "age": 47,
+        "sex": "female",
+        "chief_complaint": "Back Pain (Non-Traumatic)",
+        "primary_impression": "Injury, unspecified",
+        "secondary_impression": null,
+        "incident_location": "School/institution",
+        "initial_acuity": "Emergent",
+        "protocol_used": null,
+        "bp_systolic": 112,
+        "bp_diastolic": 73,
+        "heart_rate": 86,
+        "respiratory_rate": 23,
+        "spo2": 93,
+        "gcs_total": 8,
+        "avpu": "Pain",
+        "pain_scale": 0,
+        "events_leading": "Patient complained of her back hurting at work, then became difficult to arouse.",
+        "allergies": [
+          "No known allergies"
+        ],
+        "medications_current": [
+          "lisinopril",
+          "metformin"
+        ],
+        "past_medical_history": [
+          "hypertension",
+          "type 2 diabetes"
+        ],
+        "procedures": [
+          "12 lead electrocardiogram",
+          "Electrocardiographic monitoring",
+          "Moving a patient to a stretcher"
+        ],
+        "signs_symptoms": [
+          "Cervicalgia",
+          "Cough"
+        ],
+        "medications_given": null
+      },
+      "gold": {
+        "age": 47,
+        "sex": "female",
+        "chief_complaint": "Back Pain (Non-Traumatic)",
+        "primary_impression": "Injury, unspecified",
+        "secondary_impression": null,
+        "incident_location": "School",
+        "initial_acuity": "Emergent",
+        "protocol_used": null,
+        "bp_systolic": 112,
+        "bp_diastolic": 73,
+        "heart_rate": 86,
+        "respiratory_rate": 23,
+        "spo2": 93,
+        "gcs_total": 8,
+        "avpu": null,
+        "pain_scale": 0,
+        "allergies": [
+          "No known allergies"
+        ],
+        "medications_current": [
+          "lisinopril",
+          "metformin"
+        ],
+        "past_medical_history": [
+          "hypertension",
+          "type 2 diabetes"
+        ],
+        "medications_given": [],
+        "procedures": [
+          "12 lead electrocardiogram",
+          "Moving a patient to a stretcher",
+          "Electrocardiographic monitoring"
+        ],
+        "signs_symptoms": [
+          "Cervicalgia",
+          "Cough"
+        ],
+        "events_leading": "Patient was at work when she complained of back pain, then became difficult to arouse. Found responsive only to painful stimuli by EMS."
+      }
+    },
+    {
+      "pred": {
+        "age": 76,
+        "sex": "male",
+        "chief_complaint": "Weakness",
+        "primary_impression": "Encounter for general adult medical examination without abnormal findings",
+        "secondary_impression": "Dorsalgia, unspecified",
+        "incident_location": "Institutional residence",
+        "initial_acuity": "Emergent",
+        "protocol_used": "General-Diabetic Emergency",
+        "bp_systolic": 137,
+        "bp_diastolic": 81,
+        "heart_rate": 77,
+        "respiratory_rate": 17,
+        "spo2": 100,
+        "gcs_total": 8,
+        "avpu": "Alert",
+        "pain_scale": 7,
+        "events_leading": "Patient was assisted to a chair by staff.",
+        "allergies": [
+          "sulfa drugs"
+        ],
+        "medications_current": null,
+        "past_medical_history": [
+          "Type 2 Diabetes"
+        ],
+        "procedures": [
+          "Cervical spine immobilization",
+          "3 lead electrocardiographic monitoring",
+          "12 lead electrocardiogram"
+        ],
+        "signs_symptoms": [
+          "Weakness",
+          "Other fatigue",
+          "Dorsalgia",
+          "unspecified"
+        ],
+        "medications_given": "Aspirin 290.43mg SL | Morphine 3.97mg SL"
+      },
+      "gold": {
+        "age": 76,
+        "sex": "male",
+        "chief_complaint": "Weakness",
+        "primary_impression": "Dorsalgia, unspecified",
+        "secondary_impression": "Altered mental status, unspecified",
+        "incident_location": "Institutional residence",
+        "initial_acuity": "Emergent",
+        "protocol_used": "General-Diabetic Emergency",
+        "bp_systolic": 137,
+        "bp_diastolic": 81,
+        "heart_rate": 77,
+        "respiratory_rate": 17,
+        "spo2": 100,
+        "gcs_total": 8,
+        "avpu": "Alert",
+        "pain_scale": 7,
+        "allergies": [
+          "sulfa drugs"
+        ],
+        "medications_current": null,
+        "past_medical_history": [
+          "Type 2 Diabetes"
+        ],
+        "medications_given": [
+          {
+            "drug": "Aspirin",
+            "dose": 290.43,
+            "unit": "mg",
+            "route": "SL"
+          },
+          {
+            "drug": "Morphine",
+            "dose": 3.97,
+            "unit": "mg",
+            "route": "SL"
+          }
+        ],
+        "procedures": [
+          "12 lead electrocardiogram",
+          "Cervical spine immobilization",
+          "3 lead electrocardiographic monitoring"
+        ],
+        "signs_symptoms": [
+          "Other fatigue",
+          "Other general symptoms and signs"
+        ],
+        "events_leading": "Patient developed severe back pain after being assisted from his bed to a chair by staff."
+      }
+    },
+    {
+      "pred": {
+        "age": 81,
+        "sex": "male",
+        "chief_complaint": "Sick Person",
+        "primary_impression": "Weakness",
+        "secondary_impression": "Urinary tract infection, site not specified",
+        "incident_location": "Reform school",
+        "initial_acuity": "Emergent",
+        "protocol_used": null,
+        "bp_systolic": 129,
+        "bp_diastolic": 89,
+        "heart_rate": 95,
+        "respiratory_rate": 13,
+        "spo2": 98,
+        "gcs_total": 12,
+        "avpu": "Alert",
+        "pain_scale": 3,
+        "events_leading": "Patient was found weaker than usual by staff at a reform school with new onset diarrhea and tachycardia.",
+        "allergies": [
+          "Penicillin"
+        ],
+        "medications_current": [
+          "tamsulosin",
+          "metoprolol"
+        ],
+        "past_medical_history": [
+          "BPH",
+          "angina"
+        ],
+        "procedures": [
+          "12 lead electrocardiogram",
+          "Continuous physical assessment"
+        ],
+        "signs_symptoms": [
+          "Diarrhea",
+          "unspecified",
+          "Tachycardia",
+          "unspecified"
+        ],
+        "medications_given": "Ketorolac 14.63mg IM"
+      },
+      "gold": {
+        "age": 81,
+        "sex": "male",
+        "chief_complaint": "Sick Person",
+        "primary_impression": "Weakness",
+        "secondary_impression": "Urinary tract infection, site not specified",
+        "incident_location": "Reform school",
+        "initial_acuity": "Emergent",
+        "protocol_used": null,
+        "bp_systolic": 129,
+        "bp_diastolic": 89,
+        "heart_rate": 95,
+        "respiratory_rate": 13,
+        "spo2": 98,
+        "gcs_total": 12,
+        "avpu": "Alert",
+        "pain_scale": 3,
+        "allergies": [
+          "Penicillin"
+        ],
+        "medications_current": [
+          "tamsulosin",
+          "metoprolol"
+        ],
+        "past_medical_history": [
+          "BPH",
+          "angina"
+        ],
+        "medications_given": [
+          {
+            "drug": "Ketorolac",
+            "dose": 14.63,
+            "unit": "mg",
+            "route": "IM"
+          }
+        ],
+        "procedures": [
+          "12 lead electrocardiogram",
+          "Continuous physical assessment"
+        ],
+        "signs_symptoms": [
+          "Weakness",
+          "Diarrhea",
+          "unspecified",
+          "Tachycardia",
+          "unspecified",
+          "Angina pectoris",
+          "unspecified"
+        ],
+        "events_leading": "Patient was found by staff with new onset weakness and confusion, accompanied by diarrhea."
+      }
+    }
+  ]
+}
