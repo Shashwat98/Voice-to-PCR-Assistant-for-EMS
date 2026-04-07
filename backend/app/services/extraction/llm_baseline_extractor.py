@@ -20,6 +20,9 @@ Output a valid JSON object with these fields (use null for fields not mentioned)
 {
   "age": <int or null>,
   "sex": <"male" | "female" | "unknown" | null>,
+  "incident_location": <string or null>,
+  "initial_acuity": <"Critical" | "Emergent" | "Lower Acuity" | "Non-Acute" | null>,
+  "protocol_used": <string or null>,
   "chief_complaint": <string or null>,
   "primary_impression": <string or null>,
   "secondary_impression": <string or null>,

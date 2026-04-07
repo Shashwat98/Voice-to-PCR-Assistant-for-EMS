@@ -22,6 +22,36 @@ export const FIELD_REGISTRY: Record<string, FieldMetadata> = {
     clinical_label: 'Sex',
   },
 
+  // --- eScene / eDispatch / eProtocols ---
+  incident_location: {
+    nemsis_element: 'eScene.15',
+    usage: 'recommended',
+    section: 'eScene',
+    description: 'Location where the incident occurred',
+    value_type: 'str',
+    prompt_template: 'Where did the incident occur?',
+    clinical_label: 'Incident Location',
+  },
+  initial_acuity: {
+    nemsis_element: 'eDispatch.13',
+    usage: 'recommended',
+    section: 'eDispatch',
+    description: 'Initial acuity level assigned at dispatch',
+    value_type: 'str',
+    allowed_values: ['Critical', 'Emergent', 'Lower Acuity', 'Non-Acute'],
+    prompt_template: 'What was the initial acuity level?',
+    clinical_label: 'Initial Acuity',
+  },
+  protocol_used: {
+    nemsis_element: 'eProtocols.01',
+    usage: 'recommended',
+    section: 'eProtocols',
+    description: 'EMS protocol followed during the encounter',
+    value_type: 'str',
+    prompt_template: 'Which protocol was used?',
+    clinical_label: 'Protocol Used',
+  },
+
   // --- eSituation ---
   chief_complaint: {
     nemsis_element: 'eSituation.04',
@@ -245,6 +275,9 @@ export const FIELD_REGISTRY: Record<string, FieldMetadata> = {
 
 export const SECTION_ORDER: NEMSISSection[] = [
   'ePatient',
+  'eScene',
+  'eDispatch',
+  'eProtocols',
   'eSituation',
   'eVitals',
   'eHistory',
@@ -255,6 +288,9 @@ export const SECTION_ORDER: NEMSISSection[] = [
 
 export const SECTION_LABELS: Record<NEMSISSection, string> = {
   ePatient: 'Patient',
+  eScene: 'Incident',
+  eDispatch: 'Dispatch',
+  eProtocols: 'Protocol',
   eSituation: 'Situation',
   eVitals: 'Vitals',
   eHistory: 'History',

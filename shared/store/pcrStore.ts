@@ -12,11 +12,16 @@ interface PCRState {
   getEffectiveValue: (fieldKey: string) => unknown;
   getConfidence: (fieldKey: string) => FieldConfidence | null;
   reset: () => void;
+
+  // Called after a field is committed — used by useSession to sync to backend
+  _onCommit: ((fieldKey: string, value: unknown) => void) | null;
+  setOnCommit: (fn: ((fieldKey: string, value: unknown) => void) | null) => void;
 }
 
 export const usePCRStore = create<PCRState>((set, get) => ({
   envelope: null,
   pendingEdits: {},
+  _onCommit: null,
 
   applyServerState: (incoming) => {
     const current = get().envelope;
@@ -28,7 +33,7 @@ export const usePCRStore = create<PCRState>((set, get) => ({
     set((s) => ({ pendingEdits: { ...s.pendingEdits, [fieldKey]: value } })),
 
   commitFieldEdit: (fieldKey) => {
-    const { pendingEdits, envelope } = get();
+    const { pendingEdits, envelope, _onCommit } = get();
     if (!envelope || !(fieldKey in pendingEdits)) return;
     const newValue = pendingEdits[fieldKey];
     const now = new Date().toISOString();
@@ -53,6 +58,8 @@ export const usePCRStore = create<PCRState>((set, get) => ({
         },
       };
     });
+    // Notify backend sync handler
+    _onCommit?.(fieldKey, newValue);
   },
 
   discardFieldEdit: (fieldKey) =>
@@ -74,4 +81,6 @@ export const usePCRStore = create<PCRState>((set, get) => ({
   },
 
   reset: () => set({ envelope: null, pendingEdits: {} }),
+
+  setOnCommit: (fn) => set({ _onCommit: fn }),
 }));

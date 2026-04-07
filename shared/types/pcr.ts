@@ -9,6 +9,9 @@ export interface MedicationGiven {
 export interface PCRDocument {
   age?: number;
   sex?: string;
+  incident_location?: string;
+  initial_acuity?: string;
+  protocol_used?: string;
   chief_complaint?: string;
   primary_impression?: string;
   secondary_impression?: string;

@@ -2,15 +2,37 @@
 
 This module loads a fine-tuned model and runs inference to extract
 structured PCR fields from transcripts. Requires a trained model checkpoint.
+
+T5 output format: flat string "field: value ; field: value ; ..."
+Array fields separated by " | ", medications_given as "Drug 1.5mg IV"
+Input prompt must match training: "extract pcr: <transcript>"
 """
 
-import json
+import re
 import time
-from typing import Optional
 
 from app.schemas.pcr import PCRDocument
 from app.services.extraction.base import ExtractionResult, ExtractionService
 from app.utils.logging import logger
+
+# Fields the T5 model outputs as plain integers
+INT_FIELDS = {
+    "age", "bp_systolic", "bp_diastolic", "heart_rate",
+    "respiratory_rate", "spo2", "gcs_total", "pain_scale",
+    "blood_glucose", "etco2",
+}
+
+# Fields the T5 model outputs as float
+FLOAT_FIELDS = {"temperature"}
+
+# Fields the T5 model outputs as pipe-separated lists
+ARRAY_FIELDS = {
+    "allergies", "medications_current", "past_medical_history",
+    "procedures", "signs_symptoms",
+}
+
+# Regex to parse medication string: "DrugName 1.5mg IV" or "DrugName 324.0mg PO"
+_MED_RE = re.compile(r"^(\S+)\s+([\d.]+)([a-zA-Z%]+)\s+(\S+)$")
 
 
 class FineTunedExtractor(ExtractionService):
@@ -46,8 +68,8 @@ class FineTunedExtractor(ExtractionService):
 
         start = time.perf_counter()
 
-        # Format input for T5
-        input_text = f"Extract PCR fields from EMS transcript: {transcript}"
+        # Input prompt must match training format exactly
+        input_text = f"extract pcr: {transcript}"
         inputs = self._tokenizer(
             input_text,
             return_tensors="pt",
@@ -55,7 +77,6 @@ class FineTunedExtractor(ExtractionService):
             truncation=True,
         ).to(self._device)
 
-        # Generate with output scores for confidence
         import torch
 
         with torch.no_grad():
@@ -67,20 +88,12 @@ class FineTunedExtractor(ExtractionService):
                 return_dict_in_generate=True,
             )
 
-        # Decode output
         raw_output = self._tokenizer.decode(outputs.sequences[0], skip_special_tokens=True)
         latency_ms = (time.perf_counter() - start) * 1000
 
-        # Parse JSON
-        try:
-            parsed = json.loads(raw_output)
-        except json.JSONDecodeError:
-            logger.error(f"Fine-tuned model output invalid JSON: {raw_output[:200]}")
-            parsed = {}
-
+        # Parse flat string output → dict
+        parsed = self._parse_flat_output(raw_output)
         pcr = self._build_pcr(parsed)
-
-        # Compute per-field confidence from generation scores
         confidence_map = self._compute_confidence(pcr, outputs)
 
         return ExtractionResult(
@@ -95,8 +108,72 @@ class FineTunedExtractor(ExtractionService):
     def model_name(self) -> str:
         return "finetuned_t5"
 
+    def _parse_flat_output(self, text: str) -> dict:
+        """Parse T5 flat string output into a PCR dict.
+
+        Input format: "field: value ; field: value ; ..."
+        Array fields: "allergies: penicillin | sulfa"
+        Medications: "medications_given: Aspirin 324.0mg PO | Nitroglycerin 0.4mg SL"
+        Null values: "field: null"
+        """
+        pcr: dict = {}
+
+        for part in text.split(" ; "):
+            part = part.strip()
+            if ": " not in part:
+                continue
+            key, val = part.split(": ", 1)
+            key = key.strip()
+            val = val.strip()
+
+            if val == "null" or val == "":
+                pcr[key] = None
+            elif key in ARRAY_FIELDS:
+                pcr[key] = [v.strip() for v in val.split(" | ") if v.strip()]
+            elif key == "medications_given":
+                pcr[key] = self._parse_medications(val)
+            elif key in INT_FIELDS:
+                try:
+                    pcr[key] = int(float(val))
+                except ValueError:
+                    pcr[key] = None
+            elif key in FLOAT_FIELDS:
+                try:
+                    pcr[key] = float(val)
+                except ValueError:
+                    pcr[key] = None
+            else:
+                pcr[key] = val
+
+        return pcr
+
+    def _parse_medications(self, val: str) -> list[dict]:
+        """Parse medication string back to list of structured dicts.
+
+        Format: "DrugName 1.5mg IV | DrugName2 324.0mg PO"
+        Returns: [{"drug": "DrugName", "dose": 1.5, "unit": "mg", "route": "IV"}, ...]
+        """
+        meds = []
+        for med_str in val.split(" | "):
+            med_str = med_str.strip()
+            if not med_str:
+                continue
+            m = _MED_RE.match(med_str)
+            if m:
+                meds.append({
+                    "drug": m.group(1),
+                    "dose": float(m.group(2)),
+                    "unit": m.group(3),
+                    "route": m.group(4),
+                })
+            else:
+                # Fallback: store drug name only
+                parts = med_str.split()
+                meds.append({"drug": parts[0], "dose": None, "unit": None, "route": None})
+        return meds if meds else []
+
     def _build_pcr(self, data: dict) -> PCRDocument:
-        """Build PCRDocument from model output."""
+        """Build PCRDocument from parsed output dict."""
         clean = {}
         for field_name in PCRDocument.model_fields:
             value = data.get(field_name)
@@ -109,33 +186,26 @@ class FineTunedExtractor(ExtractionService):
             return PCRDocument()
 
     def _compute_confidence(self, pcr: PCRDocument, outputs) -> dict[str, float]:
-        """Compute per-field confidence from token-level log probabilities.
-
-        Uses the average log-probability of generated tokens as a proxy for
-        confidence. Falls back to 0.8 if scores are unavailable.
-        """
+        """Derive per-field confidence from token-level log probabilities."""
         import math
 
         confidence_map = {}
         pcr_dict = pcr.model_dump()
 
-        # Try to compute average log probability from generation scores
         avg_logprob = None
         if hasattr(outputs, "scores") and outputs.scores:
             import torch
 
             logprobs = []
             for i, score in enumerate(outputs.scores):
-                token_id = outputs.sequences[0][i + 1]  # +1 for decoder start token
+                token_id = outputs.sequences[0][i + 1]
                 log_prob = torch.log_softmax(score[0], dim=-1)[token_id].item()
                 logprobs.append(log_prob)
             if logprobs:
                 avg_logprob = sum(logprobs) / len(logprobs)
 
-        # Convert to 0-1 confidence
         default_conf = 0.8
         if avg_logprob is not None:
-            # Map log probability to confidence (exp of avg logprob)
             default_conf = min(1.0, max(0.0, math.exp(avg_logprob)))
 
         for field_name, value in pcr_dict.items():

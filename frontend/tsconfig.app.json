@@ -16,6 +16,13 @@
     "noEmit": true,
     "jsx": "react-jsx",
 
+    /* Module resolution — needed so shared/ can resolve packages from frontend/node_modules */
+    "baseUrl": ".",
+    "paths": {
+      "zustand": ["./node_modules/zustand"],
+      "zustand/*": ["./node_modules/zustand/*"]
+    },
+
     /* Linting */
     "strict": true,
     "noUnusedLocals": true,

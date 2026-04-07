@@ -23,6 +23,11 @@ class PCRDocument(BaseModel):
     age: Optional[int] = None
     sex: Optional[str] = None
 
+    # Incident (eScene/eDispatch)
+    incident_location: Optional[str] = None  # eScene.15
+    initial_acuity: Optional[str] = None     # eDispatch.13
+    protocol_used: Optional[str] = None      # eProtocols.01
+
     # Situation (eSituation)
     chief_complaint: Optional[str] = None
     primary_impression: Optional[str] = None

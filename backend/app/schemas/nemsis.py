@@ -23,6 +23,9 @@ class NEMSISSection(str, Enum):
 
     E_PATIENT = "ePatient"
     E_SITUATION = "eSituation"
+    E_SCENE = "eScene"
+    E_DISPATCH = "eDispatch"
+    E_PROTOCOLS = "eProtocols"
     E_HISTORY = "eHistory"
     E_VITALS = "eVitals"
     E_MEDICATIONS = "eMedications"
@@ -61,6 +64,32 @@ FIELD_REGISTRY: dict[str, FieldMetadata] = {
         value_type="str",
         allowed_values=["male", "female", "unknown"],
         prompt_template="What is the patient's sex?",
+    ),
+    # --- eScene / eDispatch / eProtocols section ---
+    "incident_location": FieldMetadata(
+        nemsis_element="eScene.15",
+        usage=NEMSISUsage.RECOMMENDED,
+        section=NEMSISSection.E_SCENE,
+        description="Location where the incident occurred",
+        value_type="str",
+        prompt_template="Where did the incident occur?",
+    ),
+    "initial_acuity": FieldMetadata(
+        nemsis_element="eDispatch.13",
+        usage=NEMSISUsage.RECOMMENDED,
+        section=NEMSISSection.E_DISPATCH,
+        description="Initial acuity level assigned at dispatch",
+        value_type="str",
+        allowed_values=["Critical", "Emergent", "Lower Acuity", "Non-Acute"],
+        prompt_template="What was the initial acuity level?",
+    ),
+    "protocol_used": FieldMetadata(
+        nemsis_element="eProtocols.01",
+        usage=NEMSISUsage.RECOMMENDED,
+        section=NEMSISSection.E_PROTOCOLS,
+        description="EMS protocol followed during the encounter",
+        value_type="str",
+        prompt_template="Which protocol was used?",
     ),
     # --- eSituation section ---
     "chief_complaint": FieldMetadata(
@@ -121,7 +150,7 @@ FIELD_REGISTRY: dict[str, FieldMetadata] = {
         prompt_template="What medications is the patient currently taking?",
     ),
     "past_medical_history": FieldMetadata(
-        nemsis_element="eHistory.08",
+        nemsis_element="eHistory.01",
         usage=NEMSISUsage.REQUIRED,
         section=NEMSISSection.E_HISTORY,
         description="Relevant past medical history",

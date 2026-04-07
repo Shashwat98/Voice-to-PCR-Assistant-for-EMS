@@ -62,6 +62,9 @@ FIELD_PRIORITY: dict[str, int] = {
     "blood_glucose": 36,
     "etco2": 37,
     "cardiac_rhythm": 38,
+    "incident_location": 40,
+    "initial_acuity": 41,
+    "protocol_used": 42,
 }
 
 

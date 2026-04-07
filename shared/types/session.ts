@@ -16,7 +16,7 @@ export interface CorrectionEvent {
 
 export interface GapItem {
   field_name: string;
-  usage: string;
+  usage: 'mandatory' | 'required' | 'recommended';
   section: string;
   description: string;
   prompt: string;

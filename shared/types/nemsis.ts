@@ -2,6 +2,9 @@ export type NEMSISUsage = 'mandatory' | 'required' | 'recommended';
 
 export type NEMSISSection =
   | 'ePatient'
+  | 'eScene'
+  | 'eDispatch'
+  | 'eProtocols'
   | 'eSituation'
   | 'eHistory'
   | 'eVitals'
