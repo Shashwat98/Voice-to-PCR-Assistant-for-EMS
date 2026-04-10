@@ -4,7 +4,7 @@ from datetime import datetime, timezone
 
 from fastapi import APIRouter, HTTPException
 
-from app.dependencies import get_openai_client, get_session_manager
+from app.dependencies import get_ollama_client, get_session_manager
 from app.schemas.correction import CorrectionRequest, CorrectionResponse
 from app.schemas.session import CorrectionEvent
 from app.services.correction.correction_handler import CorrectionHandler
@@ -23,8 +23,7 @@ async def apply_correction(session_id: str, request: CorrectionRequest):
     if session.status != "active":
         raise HTTPException(status_code=400, detail="Session is not active")
 
-    # Parse the correction utterance
-    parser = CorrectionParser(openai_client=get_openai_client())
+    parser = CorrectionParser(ollama_client=get_ollama_client())
     intents = await parser.parse(
         utterance=request.utterance,
         current_pcr=session.pcr_manager.export_pcr(),
@@ -36,11 +35,9 @@ async def apply_correction(session_id: str, request: CorrectionRequest):
             detail="Could not parse any corrections from the utterance",
         )
 
-    # Apply corrections
     handler = CorrectionHandler()
     pcr_state, rejected = handler.apply(session.pcr_manager, intents)
 
-    # Log correction events
     for intent in intents:
         if not any(r["intent"]["field"] == intent.field for r in rejected):
             await session_mgr.add_correction(

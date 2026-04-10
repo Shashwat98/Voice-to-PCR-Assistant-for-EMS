@@ -1,8 +1,5 @@
 """Application configuration loaded from environment variables."""
 
-from typing import Optional
-
-from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -16,19 +13,16 @@ class Settings(BaseSettings):
     port: int = 8000
     cors_origins: list[str] = ["http://localhost:3000"]
 
-    # OpenAI (Whisper ASR + GPT-4 baseline)
-    openai_api_key: str = Field(default="")
-    whisper_model: str = "whisper-1"
-    gpt_model: str = "gpt-4"
+    # Local Whisper ASR
+    whisper_model_size: str = "medium"
 
-    # Anthropic (Claude baseline)
-    anthropic_api_key: Optional[str] = None
-    claude_model: str = "claude-sonnet-4-20250514"
+    # Local LLM (Ollama)
+    ollama_base_url: str = "http://localhost:11434"
+    ollama_model: str = "llama3.1:8b"
 
     # Fine-tuned model
-    finetuned_model_path: str = "models/t5_pcr_v1"
+    finetuned_model_path: str = "../models"
     finetuned_model_device: str = "cpu"
-    extraction_model_default: str = "llm_baseline"  # "finetuned" or "llm_baseline"
 
     # PCR State
     confidence_threshold: float = 0.5
@@ -39,7 +33,7 @@ class Settings(BaseSettings):
     audio_buffer_interval_sec: float = 5.0
 
     # Evaluation
-    eval_dataset_path: str = "training/data/processed/test.jsonl"
+    eval_dataset_path: str = "data/medic-synthetic/test.json"
 
 
 settings = Settings()

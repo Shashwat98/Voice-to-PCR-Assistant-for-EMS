@@ -83,7 +83,8 @@ class FineTunedExtractor(ExtractionService):
             outputs = self._model.generate(
                 **inputs,
                 max_length=1024,
-                num_beams=4,
+                num_beams=1,
+                do_sample=False,
                 output_scores=True,
                 return_dict_in_generate=True,
             )
@@ -188,28 +189,30 @@ class FineTunedExtractor(ExtractionService):
     def _compute_confidence(self, pcr: PCRDocument, outputs) -> dict[str, float]:
         """Derive per-field confidence from token-level log probabilities."""
         import math
+        import torch
 
         confidence_map = {}
         pcr_dict = pcr.model_dump()
 
-        avg_logprob = None
+        field_conf = 0.8  # fallback
         if hasattr(outputs, "scores") and outputs.scores:
-            import torch
-
             logprobs = []
+            seq = outputs.sequences[0]
             for i, score in enumerate(outputs.scores):
-                token_id = outputs.sequences[0][i + 1]
-                log_prob = torch.log_softmax(score[0], dim=-1)[token_id].item()
-                logprobs.append(log_prob)
+                token_idx = i + 1
+                if token_idx >= len(seq):
+                    break
+                token_id = seq[token_idx]
+                # softmax gives actual probability, not log prob
+                prob = torch.softmax(score[0], dim=-1)[token_id].item()
+                logprobs.append(prob)
             if logprobs:
-                avg_logprob = sum(logprobs) / len(logprobs)
-
-        default_conf = 0.8
-        if avg_logprob is not None:
-            default_conf = min(1.0, max(0.0, math.exp(avg_logprob)))
+                # geometric mean of token probabilities
+                log_sum = sum(math.log(p) for p in logprobs if p > 0)
+                field_conf = math.exp(log_sum / len(logprobs))
 
         for field_name, value in pcr_dict.items():
             if value is not None and value != [] and value != "":
-                confidence_map[field_name] = default_conf
+                confidence_map[field_name] = round(field_conf, 4)
 
         return confidence_map

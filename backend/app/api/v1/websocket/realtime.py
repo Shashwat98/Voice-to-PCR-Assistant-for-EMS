@@ -1,7 +1,4 @@
-"""WebSocket endpoint for real-time PCR session interaction.
-
-Supports: audio streaming, real-time extraction, corrections, gap alerts.
-"""
+"""WebSocket endpoint for real-time PCR session interaction."""
 
 import base64
 import json
@@ -13,7 +10,7 @@ from app.dependencies import (
     get_asr_service,
     get_extraction_service,
     get_gap_detector,
-    get_openai_client,
+    get_ollama_client,
     get_session_manager,
 )
 from app.schemas.session import TranscriptSegment
@@ -48,7 +45,6 @@ async def websocket_session(ws: WebSocket, session_id: str):
         await ws.close()
         return
 
-    # Send initial state
     state = session.pcr_manager.get_state()
     await send_message(ws, "pcr_state", state.model_dump(mode="json"), state.version)
 
@@ -95,11 +91,9 @@ async def _handle_audio_chunk(ws: WebSocket, session, payload: dict):
         await send_message(ws, "error", {"message": "Invalid base64 audio"})
         return
 
-    # Transcribe
     asr = get_asr_service()
     result = await asr.transcribe(audio_data, audio_format=audio_format)
 
-    # Store transcript
     await get_session_manager().add_transcript(
         session.session_id,
         TranscriptSegment(
@@ -110,17 +104,14 @@ async def _handle_audio_chunk(ws: WebSocket, session, payload: dict):
         ),
     )
 
-    # Send transcript
     await send_message(ws, "transcript_final", {
         "text": result.transcript_text,
         "segments": [s.model_dump() for s in result.segments],
     })
 
-    # Run extraction
     extractor = get_extraction_service()
     extraction = await extractor.extract(result.transcript_text)
 
-    # Apply to state
     state = session.pcr_manager.apply_extraction(
         extracted=extraction.pcr,
         confidence_map=extraction.confidence_map,
@@ -134,17 +125,15 @@ async def _handle_audio_chunk(ws: WebSocket, session, payload: dict):
         "latency_ms": extraction.latency_ms,
     }, state.version)
 
-    # Send full state
     await send_message(ws, "pcr_state", state.model_dump(mode="json"), state.version)
 
-    # Auto gap detection
     detector = get_gap_detector()
     gaps = detector.detect_gaps(state)
     if gaps.missing_mandatory:
         await send_message(ws, "gap_alert", {
             "missing_mandatory": [g.model_dump() for g in gaps.missing_mandatory],
             "missing_required": [g.model_dump() for g in gaps.missing_required],
-            "suggested_prompts": gaps.suggested_prompts[:3],  # Top 3 prompts
+            "suggested_prompts": gaps.suggested_prompts[:3],
         }, state.version)
 
 
@@ -155,7 +144,7 @@ async def _handle_correction(ws: WebSocket, session, payload: dict):
         await send_message(ws, "error", {"message": "No utterance provided"})
         return
 
-    parser = CorrectionParser(openai_client=get_openai_client())
+    parser = CorrectionParser(ollama_client=get_ollama_client())
     intents = await parser.parse(utterance, session.pcr_manager.export_pcr())
 
     if not intents:

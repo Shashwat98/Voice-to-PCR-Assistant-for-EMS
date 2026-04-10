@@ -7,7 +7,6 @@ from app.schemas.pcr import PCRDocument, PCRStateEnvelope
 
 class ExtractionRequest(BaseModel):
     transcript: str
-    model: str = "llm_baseline"  # "finetuned" or "llm_baseline"
 
 
 class ExtractionResponse(BaseModel):
@@ -18,11 +17,3 @@ class ExtractionResponse(BaseModel):
     model_used: str
     latency_ms: float
     pcr_state: PCRStateEnvelope
-
-
-class ComparisonResponse(BaseModel):
-    """Side-by-side comparison of two extraction models."""
-
-    finetuned_result: ExtractionResponse
-    llm_baseline_result: ExtractionResponse
-    field_diffs: dict[str, dict] = Field(default_factory=dict)
