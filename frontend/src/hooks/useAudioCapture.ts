@@ -4,6 +4,10 @@
  * Supports push-to-talk AND wake-word-triggered auto-recording.
  * When wake word triggers, recording auto-stops after 2s of silence.
  * Push-to-talk still works: click to start, click to stop.
+ *
+ * Correction detection: if transcript contains correction keywords
+ * (change, update, set, correct, fix), routes to correction endpoint
+ * instead of extraction pipeline.
  */
 
 import { useEffect, useRef } from 'react';
@@ -16,6 +20,7 @@ import type { GapDetectionResult, TranscriptSegment } from '../types/session';
 
 const SILENCE_THRESHOLD = 0.01;
 const SILENCE_DURATION_MS = 2000;
+const CORRECTION_PATTERN = /\b(change|update|set|correct|fix|make)\b/i;
 
 export function useAudioCapture(sessionIdRef: RefObject<string | null>) {
   const { micStatus, setMicStatus, wakeWordStatus, setWakeWordStatus, setGaps, setGapPanelOpen } = useUIStore();
@@ -40,7 +45,6 @@ export function useAudioCapture(sessionIdRef: RefObject<string | null>) {
     } else if (micStatus === 'processing') {
       stopAndProcess();
     } else if (micStatus === 'idle' && recorderRef.current?.state === 'recording') {
-      // Cancel — stop recorder, discard audio
       cleanup();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -77,7 +81,6 @@ export function useAudioCapture(sessionIdRef: RefObject<string | null>) {
 
       recorder.start();
 
-      // Set up VAD for auto-stop (only when wake word triggered)
       if (wakeTriggeredRef.current) {
         setupVAD(stream);
       }
@@ -103,7 +106,6 @@ export function useAudioCapture(sessionIdRef: RefObject<string | null>) {
 
       analyser.getFloatTimeDomainData(dataArray);
 
-      // RMS volume
       let sum = 0;
       for (let i = 0; i < dataArray.length; i++) {
         sum += dataArray[i] * dataArray[i];
@@ -112,13 +114,11 @@ export function useAudioCapture(sessionIdRef: RefObject<string | null>) {
 
       if (rms > SILENCE_THRESHOLD) {
         speaking = true;
-        // Clear any pending silence timer
         if (silenceTimerRef.current) {
           clearTimeout(silenceTimerRef.current);
           silenceTimerRef.current = null;
         }
       } else if (speaking && !silenceTimerRef.current) {
-        // Started being silent after speaking — start countdown
         silenceTimerRef.current = setTimeout(() => {
           console.log('[VAD] Silence detected, auto-stopping recording');
           if (useUIStore.getState().micStatus === 'active') {
@@ -134,7 +134,6 @@ export function useAudioCapture(sessionIdRef: RefObject<string | null>) {
   };
 
   const stopAndProcess = async () => {
-    // Clean up VAD
     if (rafRef.current) cancelAnimationFrame(rafRef.current);
     if (silenceTimerRef.current) clearTimeout(silenceTimerRef.current);
     rafRef.current = null;
@@ -188,28 +187,86 @@ export function useAudioCapture(sessionIdRef: RefObject<string | null>) {
       };
       addSegment(seg);
 
-      // 2. Extract PCR fields
-      setPartial('Extracting PCR fields...');
-      const extractRes = await fetch(`/api/v1/sessions/${sid}/extract`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ transcript }),
-      });
+      // Detect correction vs new patient data
+      if (CORRECTION_PATTERN.test(transcript)) {
+        // Correction flow — route to correction endpoint
+        setPartial('Applying correction...');
+        const correctRes = await fetch(`/api/v1/sessions/${sid}/correct`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ utterance: transcript }),
+        });
 
-      if (extractRes.ok) {
-        const extractData = await extractRes.json();
-        if (extractData.pcr_state) {
-          applyServerState(extractData.pcr_state as PCRStateEnvelope);
+        if (correctRes.ok) {
+          const correctData = await correctRes.json();
+          if (correctData.pcr_state) {
+            applyServerState(correctData.pcr_state as PCRStateEnvelope);
+          }
         }
-      }
 
-      // 3. Fetch gaps
-      const gapRes = await fetch(`/api/v1/sessions/${sid}/gaps`);
-      if (gapRes.ok) {
-        const gaps: GapDetectionResult = await gapRes.json();
-        setGaps(gaps);
-        if (gaps.missing_mandatory.length > 0 || gaps.missing_required.length > 0) {
-          setGapPanelOpen(true);
+        // Refresh gaps
+        const gapRes = await fetch(`/api/v1/sessions/${sid}/gaps`);
+        if (gapRes.ok) {
+          const gaps: GapDetectionResult = await gapRes.json();
+          setGaps(gaps);
+        }
+      } else {
+        // Normal extraction flow
+        setPartial('Extracting PCR fields...');
+        const extractRes = await fetch(`/api/v1/sessions/${sid}/extract`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ transcript }),
+        });
+
+        if (extractRes.ok) {
+          const extractData = await extractRes.json();
+          if (extractData.pcr_state) {
+            applyServerState(extractData.pcr_state as PCRStateEnvelope);
+          }
+        }
+
+        // Fetch gaps
+        const gapRes = await fetch(`/api/v1/sessions/${sid}/gaps`);
+        if (gapRes.ok) {
+          const gaps: GapDetectionResult = await gapRes.json();
+          setGaps(gaps);
+          if (gaps.missing_mandatory.length > 0 || gaps.missing_required.length > 0) {
+            setGapPanelOpen(true);
+
+            // Gap completion: deterministic rules + LLM recovery
+            setPartial('Suggesting missing fields...');
+            try {
+              const completeRes = await fetch(`/api/v1/sessions/${sid}/complete-gaps`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ transcript }),
+              });
+
+              if (completeRes.ok) {
+                const completions = await completeRes.json();
+                for (const s of completions.suggestions || []) {
+                  if (s.confidence === 'high' || s.confidence === 'medium') {
+                    await fetch(`/api/v1/sessions/${sid}/correct`, {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({
+                        utterance: `Set ${s.field} to ${s.value}`,
+                      }),
+                    });
+                  }
+                }
+
+                // Refresh gaps after completions
+                const refreshGaps = await fetch(`/api/v1/sessions/${sid}/gaps`);
+                if (refreshGaps.ok) {
+                  setGaps(await refreshGaps.json());
+                }
+              }
+            } catch (err) {
+              console.error('[useAudioCapture] gap completion error', err);
+            }
+          }
         }
       }
     } catch (err) {
@@ -217,7 +274,9 @@ export function useAudioCapture(sessionIdRef: RefObject<string | null>) {
     } finally {
       setPartial(null);
       setMicStatus('idle');
-      setWakeWordStatus('off');
+      if (wakeTriggeredRef.current) {
+        setWakeWordStatus('listening');
+      }
     }
   };
 

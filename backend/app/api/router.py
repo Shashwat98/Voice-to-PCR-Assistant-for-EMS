@@ -6,6 +6,7 @@ from app.api.v1.endpoints import (
     correction,
     evaluation,
     extraction,
+    gap_completion,
     gap_detection,
     health,
     pcr_export,
@@ -25,6 +26,7 @@ api_router.include_router(transcription.router, prefix="/api/v1")
 api_router.include_router(extraction.router, prefix="/api/v1")
 api_router.include_router(correction.router, prefix="/api/v1")
 api_router.include_router(gap_detection.router, prefix="/api/v1")
+api_router.include_router(gap_completion.router, prefix="/api/v1")
 api_router.include_router(pcr_export.router, prefix="/api/v1")
 api_router.include_router(evaluation.router, prefix="/api/v1")
 

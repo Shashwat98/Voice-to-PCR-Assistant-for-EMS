@@ -9,6 +9,7 @@ from typing import Any, Optional
 
 from app.schemas.nemsis import FIELD_REGISTRY, NEMSISUsage, get_mandatory_fields, get_required_fields
 from app.schemas.pcr import FieldConfidence, PCRDocument, PCRStateEnvelope
+from app.core.vitals_validator import is_valid_vital
 
 
 class PCRStateManager:
@@ -65,6 +66,10 @@ class PCRStateManager:
             if new_confidence < self.confidence_threshold:
                 continue
 
+            # Reject out-of-range vitals
+            if not is_valid_vital(field_name, new_value):
+                continue
+
             current_value = getattr(self._pcr, field_name)
             meta = FIELD_REGISTRY[field_name]
 
@@ -103,6 +108,14 @@ class PCRStateManager:
     ) -> PCRStateEnvelope:
         """Apply a user correction. Always overrides with confidence=1.0."""
         now = datetime.now(timezone.utc)
+
+        # Reject out-of-range vitals even from corrections
+        if action == "update" and not is_valid_vital(field_name, new_value):
+            from app.utils.logging import logger
+            logger.warning(f"Rejected correction: {field_name}={new_value} (out of physiological range)")
+            return self.get_state()
+
+
 
         if action == "update":
             setattr(self._pcr, field_name, new_value)
