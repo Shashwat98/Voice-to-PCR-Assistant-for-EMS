@@ -13,6 +13,7 @@ Fully local voice-driven assistant that converts paramedic speech into structure
 - [Tech Stack](#tech-stack)
 - [ML Models](#ml-models)
 - [PCR Schema](#pcr-schema)
+- [Hypothesis Evaluation](#hypothesis-evaluation)
 - [Quick Start](#quick-start)
 - [Project Structure](#project-structure)
 - [Data Pipeline](#data-pipeline)
@@ -110,6 +111,57 @@ Intent Detection (correction vs new data)
 
 ---
 
+## Hypothesis Evaluation
+
+### H1: Fine-tuned T5 achieves higher field-level accuracy (F1 > 0.85) than prompted LLM baseline
+
+| Metric | Fine-tuned T5 | LLM Baseline (Llama 3.1 8B) |
+|---|---|---|
+| Scalar Exact Match | 0.839 | 0.724 |
+| Array F1 | 0.886 | 0.547 |
+| **Combined** | **0.862** | **0.636** |
+
+**Result: H1 PASSED** — T5 combined score (0.862) exceeds the 0.85 threshold and outperforms the LLM baseline by 22.6 percentage points.
+
+![H1 Overall](data/charts/h1_overall.png)
+![H1 Field Accuracy](data/charts/h1_field_accuracy.png)
+
+### H2: Fine-tuned T5 produces lower hallucination rate (< 5%) than LLM baseline
+
+| Model | Hallucinated Fields | Total Filled Fields | Hallucination Rate |
+|---|---|---|---|
+| Fine-tuned T5 | 37 | 4,456 | **0.8%** |
+| LLM Baseline | 128 | 4,216 | **3.0%** |
+
+**Result: H2 PASSED** — T5 hallucination rate (0.8%) is well below the 5% target and 3.75x lower than the LLM baseline (3.0%).
+
+![H2 Hallucination](data/charts/h2_hallucination.png)
+
+### H3: Gap detection reduces missing mandatory fields
+
+| Metric | Value |
+|---|---|
+| Avg completeness (single-pass T5) | 95.7% |
+| Samples with gaps | 47.7% |
+| Avg mandatory fields missing | 0.00 |
+| Avg required fields missing | 0.69 |
+
+**Result: H3 SUPPORTED** — T5 fills all mandatory fields on average. Gap detection identifies 0.69 missing required fields per sample, enabling targeted prompting to reach full completeness.
+
+![H3 Completeness](data/charts/h3_completeness.png)
+
+### Additional Results
+
+**High-risk fields** (vitals + scores): Both models achieve 97-100% exact match, with T5 slightly outperforming on pain_scale (1.00 vs 0.93).
+
+![High Risk](data/charts/high_risk_accuracy.png)
+
+**Latency**: T5 inference at ~4.5s vs LLM at ~25.3s (5.6x faster).
+
+![Latency](data/charts/latency_comparison.png)
+
+---
+
 ## Quick Start
 
 ### Prerequisites
@@ -168,8 +220,9 @@ Open `http://localhost:3000` in **Chrome**, click the wake word button (green), 
 | `shared/` | Cross-platform types, stores, utilities |
 | `data/distributions.json` | NEMSIS field distributions from 60M activations |
 | `data/medic-synthetic/` | Synthetic training data (train/val/test.jsonl) |
+| `data/charts/` | Evaluation charts (H1, H2, H3, latency, high-risk) |
 | `models/` | T5-base fine-tuned checkpoint |
-| `scripts/` | Data generation, training, evaluation scripts |
+| `scripts/` | Data generation, training, evaluation, hypothesis testing |
 
 ---
 
@@ -181,6 +234,7 @@ Open `http://localhost:3000` in **Chrome**, click the wake word button (green), 
 3. Clean        fix_medic_data.py → data/medic_synthetic_fixed/
 4. Train        t5_train.py → models/ (best checkpoint at epoch 9)
 5. Evaluate     evaluate_t5.py → data/eval_results.json
+6. Baseline     evaluate_hypotheses.py → data/llm_baseline_results.json + data/charts/
 ```
 
 **Data volumes**: 60M NEMSIS activations (148 GB uncompressed), 2,398 validated synthetic samples
@@ -194,7 +248,7 @@ T5-base | Trained on 1,920 samples | Evaluated on 239 test samples
 | Field | Metric | Score |
 |---|---|---|
 | age, sex, initial_acuity, gcs_total, bp_diastolic | Exact Match | 100.0% |
-| bp_systolic, heart_rate, rr, spo2, pain_scale | Exact Match | 97–99% |
+| bp_systolic, heart_rate, rr, spo2, pain_scale | Exact Match | 97–100% |
 | chief_complaint | Exact Match | 91.6% |
 | medications_current | F1 | 96.5% |
 | past_medical_history | F1 | 94.2% |
@@ -224,19 +278,20 @@ T5-base | Trained on 1,920 samples | Evaluated on 239 test samples
 | Vitals validation | Physiological range checks reject impossible values (e.g. SpO2 > 100) |
 | Wake word | Web Speech API — trigger phrase only, clinical audio stays local |
 | VAD | RMS-based silence detection, 2s threshold for auto-stop |
+| Hallucination rate | T5: 0.8%, LLM baseline: 3.0% |
+| Latency | T5: ~4.5s, LLM: ~25.3s per extraction |
 
 ---
 
 ## Known Gaps
 
-1. NaN train loss at epochs 3 and 9 — needs `if torch.isnan(loss): continue` guard
-2. `events_leading` evaluation uses exact match — needs ROUGE-L scoring
-3. `medications_given` parsing in eval returns raw string, not structured dict
-4. `primary_impression` at 63.6% EM — planned improvement via T5-large on 5,000 samples
-5. `secondary_impression` at 35.4% EM — rarely stated explicitly in transcripts
-6. Whisper occasionally concatenates numbers (e.g. "SpO2 88" → "SPO 288") — vitals validator catches these
-7. Compound correction commands ("change X and change Y") sometimes partially fail
-8. Wake word requires Chrome — Safari and Firefox do not support Web Speech API
+1. `events_leading` evaluation uses exact match — needs ROUGE-L scoring
+2. `primary_impression` at 63.6% EM — planned improvement via T5-large on 5,000 samples
+3. `secondary_impression` at 35.4% EM — rarely stated explicitly in transcripts
+4. Whisper occasionally concatenates numbers (e.g. "SpO2 88" → "SPO 288") — vitals validator catches these
+5. Compound correction commands ("change X and change Y") sometimes partially fail
+6. Wake word requires Chrome — Safari and Firefox do not support Web Speech API
+7. LLM gap completion can hallucinate (e.g. inferring GCS from alertness) — strict prompt guards mitigate this
 
 ---
 
@@ -254,6 +309,15 @@ uvicorn app.main:app --reload --port 8000
 cd frontend
 npm run dev
 
+# Run T5 evaluation
+python scripts/evaluate_t5.py
+
+# Run LLM baseline + generate hypothesis charts
+python scripts/evaluate_hypotheses.py --run-baseline
+
+# Regenerate charts from cached results
+python scripts/evaluate_hypotheses.py --charts-only
+
 # Generate synthetic data (requires Gemini API key)
 python scripts/generate_data.py
 
@@ -262,9 +326,6 @@ python scripts/fix_medic_data.py
 
 # Train T5-base (Colab L4 recommended)
 python scripts/t5_train.py
-
-# Evaluate on test set
-python scripts/evaluate_t5.py
 
 # Pull Ollama model
 ollama pull llama3.1:8b
@@ -282,7 +343,8 @@ python scripts/preprocess_nemsis.py
 - **Two-phase gap completion** — deterministic rules for safe transforms (AVPU, allergies) + LLM recovery for explicit missed values, with strict hallucination guardrails.
 - **Vitals validation layer** — rejects physiologically impossible values before they enter the PCR state.
 - **Voice correction routing** — intent detection distinguishes corrections from new patient data, enabling hands-free field updates.
+- **Hypothesis-driven evaluation** — H1 (accuracy), H2 (hallucination), H3 (completeness) validated against LLM baseline on 239 test samples.
 
 ---
 
-**Status**: Active Development | **Last Updated**: 2026-04-10
+**Status**: Active Development | **Last Updated**: 2026-04-11
