@@ -1,0 +1,70 @@
+# Model weights
+models/model.safetensors
+
+# NEMSIS raw data
+data/nemsis_extract/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+dist/
+build/
+*.egg
+.eggs/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb
+
+# Environment variables
+.env
+*.key
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Training data and models (large files)
+backend/training/data/raw/
+backend/training/data/processed/
+backend/models/
+*.pt
+*.bin
+*.safetensors
+
+# Evaluation reports
+backend/evaluation/reports/*.json
+backend/evaluation/reports/*.html
+
+# Logs
+*.log
+logs/
+wandb/
+runs/
+
+# Coverage
+htmlcov/
+.coverage
+.coverage.*
+
+# pytest
+.pytest_cache/
+
+# mypy
+.mypy_cache/
